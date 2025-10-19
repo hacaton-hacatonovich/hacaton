@@ -1,0 +1,21 @@
+RewriteEngine On
+RewriteRule (.*) index.php
+
+
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+    AddType image/svg+xml .svg
+    AddType application/font-woff .woff
+    AddType application/font-woff2 .woff2
+</IfModule>
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Убедитесь, что CSS файлы отдаются с правильным типом
+<FilesMatch "\.css$">
+    ForceType text/css
+</FilesMatch>

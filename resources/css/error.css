@@ -1,0 +1,871 @@
+/* Базовые стили и переменные */
+:root {
+    /* Светлая тема */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --bg-space: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --accent-primary: #0d6efd;
+    --accent-success: #198754;
+    --accent-danger: #dc3545;
+    --accent-warning: #ffc107;
+    --accent-info: #0dcaf0;
+    --border-color: #dee2e6;
+    --shadow: 0 8px 30px rgba(0,0,0,0.12);
+    --shadow-hover: 0 15px 40px rgba(0,0,0,0.15);
+    --glow-primary: 0 0 50px rgba(13, 110, 253, 0.3);
+}
+
+.dark-theme {
+    /* Темная тема */
+    --bg-primary: #0a0e17;
+    --bg-secondary: #141a25;
+    --bg-tertiary: #1e2636;
+    --bg-space: linear-gradient(135deg, #0f1b33 0%, #1a365d 100%);
+    --text-primary: #e9ecef;
+    --text-secondary: #8b9cb1;
+    --accent-primary: #3b82f6;
+    --accent-success: #10b981;
+    --accent-danger: #ef4444;
+    --accent-warning: #f59e0b;
+    --accent-info: #06b6d4;
+    --border-color: #2d3748;
+    --shadow: 0 8px 30px rgba(0,0,0,0.3);
+    --shadow-hover: 0 15px 40px rgba(0,0,0,0.4);
+    --glow-primary: 0 0 50px rgba(59, 130, 246, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-space);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Космический фон */
+.space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.stars, .stars-small {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+            radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+            radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+            radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+            radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+            radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+}
+
+.stars-small {
+    background-image:
+            radial-gradient(1px 1px at 50px 160px, #fff, transparent),
+            radial-gradient(1px 1px at 90px 200px, #fff, transparent),
+            radial-gradient(1px 1px at 130px 160px, #ddd, transparent),
+            radial-gradient(1px 1px at 170px 220px, #fff, transparent);
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+.comet {
+    position: absolute;
+    top: 20%;
+    right: -100px;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px #3b82f6;
+    animation: cometFly 15s linear infinite;
+}
+
+/* Основной контейнер */
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.error-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    background: var(--bg-primary);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.error-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-info));
+}
+
+/* Анимация космонавта */
+.astronaut-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    position: relative;
+}
+
+.astronaut {
+    position: relative;
+    width: 120px;
+    height: 180px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.helmet {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    top: 0;
+    left: 20px;
+    overflow: hidden;
+    border: 3px solid var(--accent-info);
+}
+
+.visor {
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    background: var(--accent-info);
+    border-radius: 30px 30px 15px 15px;
+    top: 20px;
+    left: 10px;
+    opacity: 0.6;
+}
+
+.reflection {
+    position: absolute;
+    width: 20px;
+    height: 10px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    top: 25px;
+    left: 15px;
+    transform: rotate(-20deg);
+}
+
+.body {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: var(--bg-tertiary);
+    border-radius: 15px;
+    top: 70px;
+    left: 25px;
+    border: 2px solid var(--border-color);
+}
+
+.control-panel {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.light {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-success);
+    animation: blink 2s infinite;
+}
+
+.light:nth-child(2) {
+    background: var(--accent-warning);
+    animation-delay: 0.5s;
+}
+
+.light:nth-child(3) {
+    background: var(--accent-danger);
+    animation-delay: 1s;
+}
+
+.arm, .leg {
+    position: absolute;
+    background: var(--bg-tertiary);
+}
+
+.arm {
+    width: 40px;
+    height: 15px;
+    border-radius: 8px;
+}
+
+.left-arm {
+    top: 85px;
+    left: -15px;
+    transform: rotate(-30deg);
+    animation: armWave 3s ease-in-out infinite;
+}
+
+.right-arm {
+    top: 85px;
+    right: -15px;
+    transform: rotate(30deg);
+}
+
+.hand {
+    width: 12px;
+    height: 12px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    position: absolute;
+    bottom: -5px;
+}
+
+.left-arm .hand {
+    right: -2px;
+}
+
+.right-arm .hand {
+    left: -2px;
+}
+
+.leg {
+    width: 15px;
+    height: 50px;
+    border-radius: 8px;
+    top: 135px;
+}
+
+.left-leg {
+    left: 35px;
+    transform: rotate(10deg);
+}
+
+.right-leg {
+    right: 35px;
+    transform: rotate(-10deg);
+}
+
+.backpack {
+    position: absolute;
+    width: 30px;
+    height: 40px;
+    background: var(--accent-primary);
+    border-radius: 8px;
+    top: 75px;
+    right: 15px;
+    transform: rotate(5deg);
+}
+
+/* Планета */
+.planet {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, var(--accent-warning), var(--accent-danger));
+    border-radius: 50%;
+    bottom: 50px;
+    right: 50px;
+    animation: rotate 20s linear infinite;
+}
+
+.crater {
+    position: absolute;
+    background: rgba(0,0,0,0.2);
+    border-radius: 50%;
+}
+
+.crater:nth-child(1) {
+    width: 30px;
+    height: 30px;
+    top: 40px;
+    left: 30px;
+}
+
+.crater:nth-child(2) {
+    width: 20px;
+    height: 20px;
+    top: 80px;
+    right: 40px;
+}
+
+.crater:nth-child(3) {
+    width: 25px;
+    height: 25px;
+    bottom: 50px;
+    left: 50px;
+}
+
+.flag {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.flag-pole {
+    width: 3px;
+    height: 40px;
+    background: var(--text-primary);
+}
+
+.flag-cloth {
+    position: absolute;
+    top: 0;
+    left: 3px;
+    background: var(--accent-primary);
+    color: white;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+/* Астероиды и спутник */
+.asteroid {
+    position: absolute;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.asteroid-1 {
+    width: 25px;
+    height: 25px;
+    top: 50px;
+    left: 50px;
+    animation: float 8s ease-in-out infinite 1s;
+}
+
+.asteroid-2 {
+    width: 35px;
+    height: 35px;
+    top: 150px;
+    left: 30px;
+    animation: float 10s ease-in-out infinite 2s;
+}
+
+.asteroid-3 {
+    width: 20px;
+    height: 20px;
+    bottom: 100px;
+    right: 100px;
+    animation: float 7s ease-in-out infinite 3s;
+}
+
+.satellite {
+    position: absolute;
+    top: 80px;
+    right: 100px;
+    animation: orbit 15s linear infinite;
+}
+
+.satellite-body {
+    width: 20px;
+    height: 10px;
+    background: var(--accent-info);
+    border-radius: 4px;
+    position: relative;
+}
+
+.solar-panel {
+    position: absolute;
+    width: 25px;
+    height: 5px;
+    background: var(--accent-warning);
+    top: 2px;
+}
+
+.solar-panel:first-child {
+    left: -28px;
+}
+
+.solar-panel:last-child {
+    right: -28px;
+}
+
+/* Информация об ошибке */
+.error-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.error-header {
+    position: relative;
+    display: inline-block;
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-info));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.error-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+    opacity: 0.1;
+    z-index: -1;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.error-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.error-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Статистика */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Кнопки действий */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: var(--glow-primary);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-tertiary);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
+}
+
+.btn-outline:hover {
+    background: var(--accent-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Быстрая навигация */
+.quick-nav {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.quick-nav h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.nav-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.nav-card:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--accent-primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.nav-content {
+    flex: 1;
+}
+
+.nav-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.nav-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.nav-arrow {
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.nav-card:hover .nav-arrow {
+    transform: translateX(3px);
+    color: var(--accent-primary);
+}
+
+/* Поиск */
+.search-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.search-section h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.search-box {
+    display: flex;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-box input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: var(--text-secondary);
+}
+
+.search-btn {
+    padding: 1rem 1.5rem;
+    background: var(--accent-primary);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: var(--accent-info);
+}
+
+/* Футер */
+.error-footer {
+    margin-top: 3rem;
+    padding: 2rem 0;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background: var(--bg-primary);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent-primary);
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-primary);
+}
+
+/* Анимации */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(2deg);
+    }
+}
+
+@keyframes armWave {
+    0%, 100% {
+        transform: rotate(-30deg);
+    }
+    50% {
+        transform: rotate(-45deg);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbit {
+    from {
+        transform: rotate(0deg) translateX(150px) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateX(150px) rotate(-360deg);
+    }
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes cometFly {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100vw) translateY(100vh);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.15;
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 968px) {
+    .error-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .astronaut-animation {
+        height: 300px;
+    }
+
+    .error-code {
+        font-size: 4rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .nav-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .error-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .planet {
+        width: 150px;
+        height: 150px;
+        bottom: 30px;
+        right: 30px;
+    }
+}
