@@ -8,6 +8,8 @@ class ErrorHandler
     switch ($error_type) {
         case '404':
             readfile($path . $error_type . '.html');
+        case '500':
+            readfile($path . $error_type . '.html');
     }
     }
 }

@@ -10,4 +10,5 @@ const ROUTES = [
     'create_dot_graphic' => ['controller_name' => 'GraphicProcessingController', 'action_name' => 'Create_dot_Graphic'],
     'columnar_graphic_settings_str' => ['controller_name' => 'GraphicProcessingController', 'action_name' => 'Columnar_Grahpic_Setting_Show'],
     'delete_file' => ['controller_name' => 'FileController', 'action_name' => 'DeleteFile'],
+    'auth' => ['controller_name' => 'AuthController', 'action_name' => 'ShowAuthForm'],
 ];

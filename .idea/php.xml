@@ -466,14 +466,16 @@
       <path value="$PROJECT_DIR$/chase-profit.ru/vendor/laravel/prompts" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/chase-profit.ru/phpunit.xml" custom_loader_path="$PROJECT_DIR$/chase-profit.ru/vendor/autoload.php" use_configuration_file="true" />
       <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/dnrwork.ru/phpunit.xml" custom_loader_path="$PROJECT_DIR$/dnrwork.ru/vendor/autoload.php" use_configuration_file="true" />
+      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/chase-profit.ru/phpunit.xml" custom_loader_path="$PROJECT_DIR$/chase-profit.ru/vendor/autoload.php" use_configuration_file="true" />
     </phpunit_settings>
   </component>
   <component name="PsalmOptionsConfiguration">

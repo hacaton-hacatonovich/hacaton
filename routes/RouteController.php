@@ -7,12 +7,12 @@ class RouteController
         $url = $_SERVER['REQUEST_URI'];
         $url_massive = explode("/", $url);
         $controller = true;
-        if (count($url_massive) > 3) {
-            $this->controller = strtolower($url_massive[3]);
+        if (count($url_massive) > 1) {
+            $this->controller = strtolower($url_massive[1]);
             if ($this->controller != '') {
                 if (!empty(ROUTES[$this->controller])) {
-                    if (isset($url_massive[4])) {
-                        $this->action = $url_massive[4];
+                    if (isset($url_massive[2])) {
+                        $this->action = $url_massive[2];
                         if (!empty(ROUTES[$this->controller]['action_name'])) {
                             $this->action = ROUTES[$this->controller]['action_name'];
                         }
@@ -42,8 +42,6 @@ class RouteController
 
     public function Route()
     {
-        echo $this->controller;
-        echo $this->action;
         $err = false;
         if (class_exists($this->controller)) {
             $controller = new $this->controller;
