@@ -1,10 +1,10 @@
-import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useConfirmEmailStore from "../store/confirmEmailStore";
+import { useUserStore } from "../store/userStore";
 
 interface Props {
   className?: string;
@@ -15,6 +15,29 @@ type FormData = {
 };
 
 export const ConfirmRegistration: React.FC<Props> = ({ className }) => {
+
+  useEffect(() => {
+      if (useUserStore.getState().userCookie) {
+        navigate('/')
+      } else{
+        const func = async() => {
+          const response = await fetch(
+        'http://hackaton.com' + "/check-code", 
+        {
+          method: 'POST',
+          credentials: 'include' as RequestCredentials,
+					headers: {
+							'Content-Type': 'application/json'
+					},
+        }
+        );
+        const data = await response.json();
+        console.log(data)
+        }
+        func()
+    }
+  }, [])
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 	const { email, clearEmail } = useConfirmEmailStore();
@@ -23,18 +46,25 @@ export const ConfirmRegistration: React.FC<Props> = ({ className }) => {
   const onSubmit = async (formData: FormData) => {
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        "http://localhost" + "/check-code-process",
-        {
-          code: formData.verificationCode,
-        }
+      const formInfo = {
+						method: 'POST',
+            credentials: 'include' as RequestCredentials,
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							code: formData.verificationCode,
+						})
+			}
+      const response = await fetch(
+        'http://hackaton.com' + "/check-code-process", formInfo
       );
-
+      const data = await response.json();
       if (data.success) {
         navigate("/")
 				clearEmail();
       } else {
-        toast.error(data.message);
+        toast.error('Error');
       }
     } catch (error) {
       toast.error((error as Error).message);

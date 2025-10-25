@@ -1,6 +1,6 @@
 // main-page.tsx
 import { BriefcaseBusiness, ChartNoAxesCombined, Users } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProjectModal } from "../components/modal/project-modal";
 import { UserModal } from "../components/modal/user-modal";
 import { ProjectsContent } from "../components/project/projects-content";
@@ -8,8 +8,16 @@ import { UsersContent } from "../components/user/user-content";
 import { DashboardContent } from "../components/dashboard/dashboard-content";
 import { WelcomeScreen } from "../components/welcome-screen";
 import type { Project, User } from "../@types/types";
+import { useUserStore } from "../store/userStore";
+import { useNavigate } from "react-router-dom";
 
 export const MainPage: React.FC = () => {
+  const navigate = useNavigate();
+   useEffect(() => {
+        if (useUserStore.getState().userCookie) {
+          navigate('/login')
+        }
+  }, [])
   const [mainState, setMainState] = useState<false | 'Dashboard' | 'Projects' | 'Users'>(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [users, setUsers] = useState<User[]>([]);

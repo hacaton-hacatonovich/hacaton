@@ -1,10 +1,10 @@
 import type React from "react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useConfirmEmailStore from "../store/confirmEmailStore";
-import { extractCookieValue } from "../lib/extractCookies";
+import { useUserStore } from "../store/userStore";
 
 interface Props {
 	className?: string;
@@ -21,11 +21,18 @@ type formDataType = {
 
 export const RegisterForm: React.FC<Props> = ({className}) => {
 
+  useEffect(() => {
+    if (useUserStore.getState().userCookie) {
+      navigate('/')
+    }
+  }, [])
+
 	const [formType, setFormType] = useState<"Sign" | "Log">("Log")
 
 	const navigate = useNavigate()
 
   const { setEmail } = useConfirmEmailStore();
+  const { setUserCookie } = useUserStore();
 
 	const handleChangeType = () => {
 		setFormType(prev => {
@@ -44,7 +51,6 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 				if (formData.confirmfield == formData.passwordfield){
 					const formInfo = {
 						method: 'POST',
-            credentials: 'include' as RequestCredentials,
 						headers: {
 							'Content-Type': 'application/json'
 						},
@@ -58,11 +64,11 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 						})
 					}
 					const response = await fetch('http://hackaton.com' + '/register', formInfo)
-
           const cookies = response.headers.get('set-cookie');
 
-        // Сделать проверку по кукисам
-					if(extractCookieValue(cookies, 'user')){
+          setUserCookie(cookies);
+
+					if(useUserStore.getState().userCookie){
 						navigate('/confirm-login')
             setEmail(formData.emailfield)
 					} else {
@@ -75,7 +81,6 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 			else {
 				const formInfo = {
 						method: 'POST',
-            credentials: 'include' as RequestCredentials,
 						headers: {
 							'Content-Type': 'application/json'
 						},
@@ -85,11 +90,11 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 						})
 				}
 				const response = await fetch('http://hackaton.com' + '/auth', formInfo)
-
         const cookies = response.headers.get('set-cookie');
 
-        // Сделать проверку по кукисам
-				if(extractCookieValue(cookies, 'user')){
+        setUserCookie(cookies);
+
+				if(useUserStore.getState().userCookie){
 					navigate('/confirm-login')
           setEmail(formData.emailfield)
 				} else {
@@ -110,7 +115,12 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
             <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
               <input 
                 type="email" 
-                {...register('emailfield', {required: true})} 
+                {...register('emailfield', {required: true,
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Введите корректный email адрес"
+                  },
+                })} 
                 placeholder="Электронная почта" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
@@ -134,8 +144,11 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
               />
               <input 
                 type="tel" 
-                {...register('telfield', {required: true})} 
-                placeholder="Номер телефона" 
+                {...register('telfield', {required: true,pattern: {
+                    value: /^\+?[78][-(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$/,
+                    message: "Введите корректный номер телефона"
+                  }})} 
+                placeholder="+ 7 (___) ___ - __ - __" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
@@ -162,7 +175,12 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
             <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
               <input 
                 type="email" 
-                {...register('emailfield', {required: true})} 
+                {...register('emailfield', {required: true,
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Введите корректный email адрес"
+                  },
+                })} 
                 placeholder="Почта" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
