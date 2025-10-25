@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useConfirmEmailStore from "../store/confirmEmailStore";
+import { extractCookieValue } from "../lib/extractCookies";
+
 interface Props {
 	className?: string;
 }
@@ -22,6 +25,8 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 	const [formType, setFormType] = useState<"Sign" | "Log">("Log")
 
 	const navigate = useNavigate()
+
+  const { setEmail } = useConfirmEmailStore();
 
 	const handleChangeType = () => {
 		setFormType(prev => {
@@ -46,11 +51,14 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 						phone_number: formData.telfield,
 						password: formData.passwordfield
 					}
-					const {data} = await axios.post('http://localhost' + '/register-process', formInfo)
+					const {data, headers} = await axios.post('http://localhost' + '/register-process', formInfo, {
+      withCredentials: true
+    })
 
         // Сделать проверку по кукисам
-					if(data.success){
+					if(extractCookieValue(headers['set-cookie'], 'user')){
 						navigate('/confirm-login')
+            setEmail(formData.emailfield)
 					} else {
 						toast.error(data.message)
 					}
@@ -62,14 +70,17 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 				const formInfo = {
 						email: formData.emailfield,
 						password: formData.passwordfield
-					}
-				const {data} = await axios.post('http://localhost' + '/auth-process', formInfo)
+				}
+				const {data, headers} = await axios.post('http://localhost' + '/auth-process', formInfo, {
+      withCredentials: true
+    })
 
         // Сделать проверку по кукисам
-				if(data.success){
+				if(extractCookieValue(headers['set-cookie'], 'user')){
 					navigate('/confirm-login')
+          setEmail(formData.emailfield)
 				} else {
-						toast.error(data.message)
+					toast.error(data.message)
 				}
 			}
 		} catch(error){
@@ -83,46 +94,46 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
         <h1 className="text-3xl font-bold text-purple-700 mb-8">Вход в систему</h1>
         {formType === "Sign" 
           ? (
-            <form className="flex flex-col gap-5" onSubmit={handleSubmit((data) => console.log(data))}>
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
               <input 
                 type="email" 
-                {...register('emailfield')} 
+                {...register('emailfield', {required: true})} 
                 placeholder="Электронная почта" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="text" 
-                {...register('firstnamefield')} 
+                {...register('firstnamefield', {required: true})} 
                 placeholder="Имя" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="text" 
-                {...register('lastnamefield')} 
+                {...register('lastnamefield', {required: true})} 
                 placeholder="Фамилия" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="text" 
-                {...register('patronymicfield')} 
+                {...register('patronymicfield', {required: true})} 
                 placeholder="Отчество" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="tel" 
-                {...register('telfield')} 
+                {...register('telfield', {required: true})} 
                 placeholder="Номер телефона" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="password" 
-                {...register('passwordfield')} 
+                {...register('passwordfield', {required: true})} 
                 placeholder="Пароль" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="password" 
-                {...register('confirmfield')} 
+                {...register('confirmfield', {required: true})} 
                 placeholder="Подтверждение пароля" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
@@ -135,16 +146,16 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
             </form>
           ) 
           : (
-            <form className="flex flex-col gap-5" onSubmit={handleSubmit((data) => console.log(data))}>
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
               <input 
                 type="email" 
-                {...register('emailfield')} 
+                {...register('emailfield', {required: true})} 
                 placeholder="Почта" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />
               <input 
                 type="password" 
-                {...register('passwordfield')} 
+                {...register('passwordfield', {required: true})} 
                 placeholder="Пароль" 
                 className="px-4 py-3 rounded-md border border-purple-300 shadow-sm focus:ring-2 focus:ring-purple-500 outline-none transition-colors duration-200" 
               />

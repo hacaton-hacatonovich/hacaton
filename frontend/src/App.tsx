@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RegisterForm } from './pages/login-page';
 import { MainPage } from "./pages/main-page";
+import { ConfirmRegistration } from "./pages/confirm-registration";
 
 export const App: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<RegisterForm />} />
-          <Route path='/confirm-registration' element={<RegisterForm />} />
+          <Route path='/confirm-registration' element={<ConfirmRegistration />} />
           <Route path='/' element={<MainPage />} />
         </Routes>
       </BrowserRouter>
