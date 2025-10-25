@@ -1,4 +1,3 @@
-import axios from "axios";
 import type React from "react"
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,23 +43,30 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 			if (formType == 'Sign'){
 				if (formData.confirmfield == formData.passwordfield){
 					const formInfo = {
-						email: formData.emailfield,
-						first_name: formData.firstnamefield,
-						last_name: formData.lastnamefield,
-						patronymic: formData.patronymicfield,
-						phone_number: formData.telfield,
-						password: formData.passwordfield
+						method: 'POST',
+            credentials: 'include' as RequestCredentials,
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							email: formData.emailfield,
+							first_name: formData.firstnamefield,
+							last_name: formData.lastnamefield,
+							patronymic: formData.patronymicfield,
+							phone_number: formData.telfield,
+							password: formData.passwordfield
+						})
 					}
-					const {data, headers} = await axios.post('http://localhost' + '/register-process', formInfo, {
-      withCredentials: true
-    })
+					const response = await fetch('http://hackaton.com' + '/register', formInfo)
+
+          const cookies = response.headers.get('set-cookie');
 
         // Сделать проверку по кукисам
-					if(extractCookieValue(headers['set-cookie'], 'user')){
+					if(extractCookieValue(cookies, 'user')){
 						navigate('/confirm-login')
             setEmail(formData.emailfield)
 					} else {
-						toast.error(data.message)
+						toast.error('Error')
 					}
 				} else{
 					toast.error("Confirm password!")
@@ -68,19 +74,26 @@ export const RegisterForm: React.FC<Props> = ({className}) => {
 			}
 			else {
 				const formInfo = {
-						email: formData.emailfield,
-						password: formData.passwordfield
+						method: 'POST',
+            credentials: 'include' as RequestCredentials,
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							email: formData.emailfield,
+							password: formData.passwordfield
+						})
 				}
-				const {data, headers} = await axios.post('http://localhost' + '/auth-process', formInfo, {
-      withCredentials: true
-    })
+				const response = await fetch('http://hackaton.com' + '/auth', formInfo)
+
+        const cookies = response.headers.get('set-cookie');
 
         // Сделать проверку по кукисам
-				if(extractCookieValue(headers['set-cookie'], 'user')){
+				if(extractCookieValue(cookies, 'user')){
 					navigate('/confirm-login')
           setEmail(formData.emailfield)
 				} else {
-					toast.error(data.message)
+					toast.error('Error')
 				}
 			}
 		} catch(error){
