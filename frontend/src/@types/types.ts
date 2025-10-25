@@ -44,3 +44,16 @@ export interface AdditionalInfo {
   nextPeriodPlans: string;
   comments: string;
 }
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+  phone: string;
+  role: 'analyst' | 'user';
+  password?: string;
+}
+
+// Добавляем к существующим типам
