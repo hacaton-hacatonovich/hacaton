@@ -5,7 +5,9 @@ class MainController
 
     public function Get()
     {
-        readfile($_SERVER['DOCUMENT_ROOT'] . 'resources/views/user/main.html');
-    }
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/base/TwoFactorAuthentification.php';
+        $auth = new TwoFactorAuthentification();
+        $auth->GetCodeToUserEmail('qqq');
 
+    }
 }

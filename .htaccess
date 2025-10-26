@@ -1,8 +1,23 @@
 RewriteEngine On
 RewriteRule (.*) index.php
 
-#php_flag display_errors on
-#php_value error_reporting 2047
+# CORS headers
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+Header always set Access-Control-Allow-Credentials "true"
+
+# Handle OPTIONS meth
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Front controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+php_flag display_errors on
+php_value error_reporting 2047
 <IfModule mod_mime.c>
     AddType text/css .css
     AddType application/javascript .js

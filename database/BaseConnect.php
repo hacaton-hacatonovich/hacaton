@@ -10,5 +10,4 @@ function Connect_to_DB()
     catch (Exception $e) {
         return false;
     }
-
 }

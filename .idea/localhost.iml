@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/chase-profit.ru/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/chase-profit.ru/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/chase-profit.ru/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/app/controllers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/chase-profit.ru/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/brick/math" />

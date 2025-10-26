@@ -1,5 +1,6 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . 'config/routes.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config/routes.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/bootstrap/Cors.php';
 #[AllowDynamicProperties]
 class RouteController
 {
@@ -61,4 +62,5 @@ class RouteController
             $error->ShowError('404');
         }
     }
+
 }
